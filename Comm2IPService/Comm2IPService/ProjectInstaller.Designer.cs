@@ -28,24 +28,25 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.serviceProcessInstaller1 = new System.ServiceProcess.ServiceProcessInstaller();
-			this.Comm2IPServiceInstaller = new System.ServiceProcess.ServiceInstaller();
-			// 
-			// serviceProcessInstaller1
-			// 
-			this.serviceProcessInstaller1.Account = System.ServiceProcess.ServiceAccount.LocalService;
-			this.serviceProcessInstaller1.Password = null;
-			this.serviceProcessInstaller1.Username = null;
-			// 
-			// Comm2IPServiceInstaller
-			// 
-			this.Comm2IPServiceInstaller.Description = "Comm2IP Interface";
-			this.Comm2IPServiceInstaller.DisplayName = "Comm2IPService";
-			this.Comm2IPServiceInstaller.ServiceName = "Comm2IPService";
-			// 
-			// ProjectInstaller
-			// 
-			this.Installers.AddRange(new System.Configuration.Install.Installer[] {
+            this.serviceProcessInstaller1 = new System.ServiceProcess.ServiceProcessInstaller();
+            this.Comm2IPServiceInstaller = new System.ServiceProcess.ServiceInstaller();
+            // 
+            // serviceProcessInstaller1
+            // 
+            this.serviceProcessInstaller1.Account = System.ServiceProcess.ServiceAccount.LocalService;
+            this.serviceProcessInstaller1.Password = null;
+            this.serviceProcessInstaller1.Username = null;
+            // 
+            // Comm2IPServiceInstaller
+            // 
+            this.Comm2IPServiceInstaller.Description = "Comm2IP Interface";
+            this.Comm2IPServiceInstaller.DisplayName = "Comm2IPService";
+            this.Comm2IPServiceInstaller.ServiceName = "Comm2IPService";
+            this.Comm2IPServiceInstaller.StartType = System.ServiceProcess.ServiceStartMode.Automatic;
+            // 
+            // ProjectInstaller
+            // 
+            this.Installers.AddRange(new System.Configuration.Install.Installer[] {
             this.serviceProcessInstaller1,
             this.Comm2IPServiceInstaller});
 
