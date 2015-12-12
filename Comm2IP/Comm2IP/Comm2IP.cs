@@ -35,12 +35,17 @@ namespace Comm2IP
 		public void Run()
 		{
 			tcpListener.Start();
+            Socket m = null;
 			while (shouldListen)
 			{
 				try
 				{
 					System.Net.Sockets.Socket socket = tcpListener.AcceptSocket();
-					Socket m = new Socket(socket, comPort, baudRate);
+                    if (m != null)
+                    {
+                        m.Stop();
+                    }
+					m = new Socket(socket, comPort, baudRate);
 					log.Info("Got connection from: " + socket.RemoteEndPoint + " for: " + comPort + "@" + baudRate);
 					Thread t = new Thread(new ThreadStart(m.Run));
 					t.Start();

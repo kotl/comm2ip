@@ -15,6 +15,7 @@ namespace Comm2IP
 		byte[] inBuffer = new byte[1024];
 		string comPort;
 		int baudRate;
+        bool stopped = false;
 
 		public Socket(System.Net.Sockets.Socket socket, string comPort, int baudRate)
 		{
@@ -30,11 +31,15 @@ namespace Comm2IP
 			try
 			{
 				serialPort = Comm2IP.GetSerialPort(socket, comPort, baudRate);
-				while (true)
+				while (!stopped)
 				{
+                    if (socket.Available > 0)
+                    {
 					inBufferCount = socket.Receive(inBuffer);
 					if (inBufferCount == 0) break;
 					serialPort.Send(inBuffer, inBufferCount);
+				}
+                    System.Threading.Thread.CurrentThread.Join(100);
 				}
 			}
 			catch (Exception e)
@@ -43,11 +48,20 @@ namespace Comm2IP
 			}
 			finally
 			{
+                Stop();
+			}
+		}
+
+        public void Stop()
+        {
+            if (!stopped)
+            {
 				log.Info("Lost connection from: " + socket.RemoteEndPoint + " for: " + comPort + "@" + baudRate);
 				Comm2IP.CloseSerialPort(serialPort);
 				try { socket.Close(); }
 				catch { }
 			}
+            stopped = true;
 		}
 	}
 }
