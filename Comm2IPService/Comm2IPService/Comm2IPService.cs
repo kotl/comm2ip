@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Configuration.Install;
 using System.Reflection;
+using System.Net;
 
 [assembly: log4net.Config.XmlConfigurator(Watch = true)]
 
@@ -78,9 +79,18 @@ namespace Comm2IPService
 				if (args[i] == "-p") sm.ipPort = Int32.Parse(args[++i]);
 				else if (args[i] == "-a")
 				{
-					string address = args[++i];
-					string[] addr = address.Split(new char[] { '.' });
-					for (int j = 0; j < 4; j++) sm.ipAddress[j] = (byte)Int32.Parse(addr[j]);
+                    string address = args[++i];
+                    if (address == "auto")
+                    {
+                        IPHostEntry ipHostInfo = Dns.Resolve(Dns.GetHostName());
+                        IPAddress ipAddress = ipHostInfo.AddressList[0];
+                        sm.ipAddress = ipAddress.GetAddressBytes();
+                    }
+                    else
+                    {
+                        string[] addr = address.Split(new char[] { '.' });
+                        for (int j = 0; j < 4; j++) sm.ipAddress[j] = (byte)Int32.Parse(addr[j]);
+                    }
 				}
 				else if (args[i] == "-c") sm.commPort = args[++i];
 				else if (args[i] == "-b") sm.commRate = Int32.Parse(args[++i]);
