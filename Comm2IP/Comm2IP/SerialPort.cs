@@ -35,14 +35,12 @@ namespace Comm2IP
 		{
 			port = new System.IO.Ports.SerialPort(comPort, baudRate, Parity.None, 8, StopBits.One);
 			port.DtrEnable = true;
-			port.DiscardNull = true;
 			port.ReadBufferSize = BUFFER_SIZE;
 			port.WriteBufferSize = BUFFER_SIZE;
 			port.ReadTimeout = TIMEOUT;
 			port.WriteTimeout = TIMEOUT;
 			port.Handshake = Handshake.RequestToSend;
 			port.ReceivedBytesThreshold = 1;
-			port.DiscardNull = true;
 			port.Open();
 			onReceiveHandler = new SerialDataReceivedEventHandler(OnReceive);
 			port.DataReceived += onReceiveHandler;
